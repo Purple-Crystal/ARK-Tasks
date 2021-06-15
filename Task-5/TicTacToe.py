@@ -1,5 +1,4 @@
 
-# Python3 program to find the next optimal move for a player
 player, opponent = 'x', 'o'
  
 # This function returns true if there are moves
@@ -13,8 +12,7 @@ def isMovesLeft(board) :
                 return True
     return False
  
-# This is the evaluation function as discussed
-# in the previous article ( http://goo.gl/sJgv68 )
+# This is the evaluation function
 def evaluate(b) :
    
     # Checking for Rows for X or O victory.
