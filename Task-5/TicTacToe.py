@@ -1,5 +1,5 @@
 
-player, opponent = 'x', 'o'
+AI, opponent = 'x', 'o'
  
 # This function returns true if there are moves
 # remaining on the board. It returns false if
@@ -11,14 +11,88 @@ def isMovesLeft(board) :
             if (board[i][j] == '_') :
                 return True
     return False
- 
+
+#to make the first move on the board
+def startMove(board):
+    count=0
+    q=0
+    for i in range(3) :
+        for j in range(3) :
+            if (board[i][j] == '_') :
+                count+=1
+            if(board[i][j]=='o'):
+                q+=1
+    if(count==9):
+        board[1][1]='X'
+    if(count==8):
+        if(q==1):
+            if(board[1][1]=='_'):
+                board[1][1]=='X'
+    return board
+
+#to try to make a move to win
+def checkMoves(board):
+    count=0
+    a,b=0
+    for i in range(3) :
+        for j in range(3) :
+            if(board[i][j] == 'x') :
+                count+=1
+                a=i
+                b=j
+    if(count)==1:
+        if(a>0) and (b>0):
+            if(board(a+1)(b)=='_'):
+                board(a+1)(b)='x'
+            if(board(a)(b+1)=='_'):
+                board(a)(b+1)='x'
+        if(a<2) and (b<2):
+            if(board(a-1)(b)=='_'):
+                board(a-1)(b)='x'
+            if(board(a)(b-1)=='_'):
+                board(a)(b-1)='x'
+    return board
+
+#to stop the opponent from winning
+def stopopponent(board):
+    for i in range(1) :
+        for j in range(1) :
+            if (board[i][j] == 'o') :
+                if(board[i+1][j])=='o':
+                    board[i+2][j]=='x'
+                if(board[i][j+1])=='o':
+                    board[i][j+2]=='x'
+                if(board[i+1][j+1])=='o':
+                    board[i+2][j+2]=='x'
+    for i in range(1,2) :
+        for j in range(1,2) :
+            if (board[i][j] == 'o') :
+                if(board[i+1][j])=='o':
+                    board[i-1][j]=='x'
+                if(board[i][j+1])=='o':
+                    board[i][j-1]=='x'
+                if(board[i+1][j+1])=='o':
+                    board[i-1][j-1]=='x'
+    return board
+    
+                
+
+
+    
+
+
+            
+                
+
+
+
 # This is the evaluation function
 def evaluate(b) :
    
     # Checking for Rows for X or O victory.
     for row in range(3) :    
         if (b[row][0] == b[row][1] and b[row][1] == b[row][2]) :       
-            if (b[row][0] == player) :
+            if (b[row][0] == AI) :
                 return 10
             elif (b[row][0] == opponent) :
                 return -10
@@ -28,7 +102,7 @@ def evaluate(b) :
       
         if (b[0][col] == b[1][col] and b[1][col] == b[2][col]) :
          
-            if (b[0][col] == player) :
+            if (b[0][col] == AI) :
                 return 10
             elif (b[0][col] == opponent) :
                 return -10
@@ -36,14 +110,14 @@ def evaluate(b) :
     # Checking for Diagonals for X or O victory.
     if (b[0][0] == b[1][1] and b[1][1] == b[2][2]) :
      
-        if (b[0][0] == player) :
+        if (b[0][0] == AI) :
             return 10
         elif (b[0][0] == opponent) :
             return -10
  
     if (b[0][2] == b[1][1] and b[1][1] == b[2][0]) :
      
-        if (b[0][2] == player) :
+        if (b[0][2] == AI) :
             return 10
         elif (b[0][2] == opponent) :
             return -10
@@ -84,7 +158,7 @@ def minimax(board, depth, isMax) :
                 if (board[i][j]=='_') :
                  
                     # Make the move
-                    board[i][j] = player
+                    board[i][j] = AI
  
                     # Call minimax recursively and choose
                     # the maximum value
@@ -133,7 +207,7 @@ def findBestMove(board) :
             if (board[i][j] == '_') :
              
                 # Make the move
-                board[i][j] = player
+                board[i][j] = AI
  
                 # compute evaluation function for this
                 # move.
@@ -160,6 +234,10 @@ board = [
 ]
  
 bestMove = findBestMove(board)
- 
+stopopponent(board)
+checkMoves(board)
+startMove(board)
+board[bestMove[0]][bestMove[1]]='X'
+print(board)
 print("The Optimal Move is :")
 print("ROW:", bestMove[0], " COL:", bestMove[1])
